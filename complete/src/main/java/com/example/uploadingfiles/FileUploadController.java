@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,7 @@ public class FileUploadController {
 	public FileUploadController(StorageService storageService) {
 		this.storageService = storageService;
 	}
+	@Value("errortext") String errorText;
 
 	@GetMapping("/")
 	public String listUploadedFiles(Model model) throws IOException {
@@ -64,8 +66,8 @@ public class FileUploadController {
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
-		return ResponseEntity.notFound().build();
+	public String handleStorageFileNotFound(StorageFileNotFoundException exc) {
+		return "uploadForm";
 	}
 
 }
