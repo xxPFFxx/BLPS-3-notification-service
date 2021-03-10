@@ -5,6 +5,12 @@
 		<h2 th:text="${message}"/>
 	</div>
 
+
+	<div th:if="${error}">
+		<h2 th:text="${error}"/>
+	</div>
+
+
 	<div>
 		<form method="POST" enctype="multipart/form-data" action="/">
 			<table>
