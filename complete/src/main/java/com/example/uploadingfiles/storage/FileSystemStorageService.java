@@ -3,6 +3,7 @@ package com.example.uploadingfiles.storage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,9 +34,20 @@ public class FileSystemStorageService implements StorageService {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
+
+
+
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get(file.getOriginalFilename()))
 					.normalize().toAbsolutePath();
+
+			String mimeType = URLConnection.guessContentTypeFromName(String.valueOf(destinationFile));
+			if(!(mimeType != null && mimeType.startsWith("video"))){
+				throw new StorageException(
+						"THIS IS NOT A VIDEO, PLZ CALL A DOCTOR");
+			}
+
+
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				// This is a security check
 				throw new StorageException(
