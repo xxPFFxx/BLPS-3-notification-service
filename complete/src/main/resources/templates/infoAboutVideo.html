@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<form method="post" >
+    <p>Название</p>
+    <input type="text">
+    <p>Описание</p>
+    <textarea></textarea>
+    <p>Категория</p>
+    <select>
+        <option>75 лет Великой Победы</option>
+        <option>Лайфхаки</option>
+        <option>Эзотерика</option>
+    </select>
+    <p>Доступ</p>
+        <input type="checkbox" id = "delay" onclick="doSmth">Отложить публикацию</input>
+    <p id = "hmm">123</p>
+    <p> <button type="submit">Применить</button></p>
+</form>
+
+</body>
+</html>
+<script type="text/javascript">
+    function doSmth(){
+                $("#hmm").toggle();
+    }
+</script>
