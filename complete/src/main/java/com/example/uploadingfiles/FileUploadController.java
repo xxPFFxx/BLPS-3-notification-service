@@ -42,7 +42,7 @@ public class FileUploadController {
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 
-		return "uploadForm";
+		return "infoAboutVideo";
 	}
 
 	@GetMapping("/files/{filename:.+}")

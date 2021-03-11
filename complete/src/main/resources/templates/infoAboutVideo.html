@@ -17,9 +17,9 @@
     position: relative;
     width: 300px;">
     <p>Название</p>
-    <input type="text">
+    <input onchange="changeName(this.value)" type="text">
     <p>Описание</p>
-    <textarea></textarea>
+    <textarea onchange="changeDesc(this.value)"></textarea>
     </div>
     <div style ="box-shadow: 0 10px 20px rgb(0 0 0 /19%), 0 6px 6px rgb(0 0 0 / 23%);
     background: #fff;
@@ -27,10 +27,11 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: -10px;
     height: 100px;
     width: 300px;">
     <p>Категория</p>
-    <select>
+    <select onchange="changeCategory(this.value)">
         <option>75 лет Великой Победы</option>
         <option>Лайфхаки</option>
         <option>Эзотерика</option>
@@ -47,15 +48,60 @@
         <input type="checkbox" id = "delay" onclick="doSmth()" style="margin-top: 10px">Отложить публикацию</input>
     <br/>
     <br/>
-    <input class = "selectTime" type="date" min="2021-03-10" style="display: none"/>
-    <input class="selectTime" type="time" style="display: none"/>
+    <input class = "selectTime" type="date" min="2021-03-12" onchange="changeDate(this.value)" style="display: none"/>
+    <input class="selectTime" type="time" style="display: none" onchange="changeTime(this.value)"/>
     </div>
-    <p> <button type="submit">Применить</button></p>
+    <p> <button id="sendBtn" type="button" disabled style="width: 200px; height: 50px; border: 1px; border-radius: 30px; color: white;
+     background-color: #6aa1ff" onclick="sendData()">Применить</button></p>
 </form>
 
 </body>
 </html>
 <script type="text/javascript">
+    let videoName = '';
+    let videoDesc = '';
+    let videoCategory = '';
+    let videoDate = '';
+    let videoTime = '';
+
+    //****FUNCTIONS FOR INPUTS****//
+    function changeName(name){
+        videoName = name;
+    }
+
+    function changeDesc(desc){
+        videoDesc = desc;
+    }
+
+    function changeCategory(category){
+        videoCategory = category;
+    }
+
+    function changeDate(date){
+        videoDate = date;
+    }
+
+    function changeTime(time){
+        videoTime = time;
+    }
+
+    function sendData(){
+        if(videoName !== '' && videoDesc !== ''){
+            console.log(videoName);
+            console.log(videoDesc);
+            console.log(videoCategory);
+            console.log(videoDate);
+            console.log(videoTime);
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `/addVideoInfo?videoName=${videoName}&videoDesc=${videoDesc}&category=${videoCategory}&releaseTime=${videoTime}&releaseDate=${videoDate}`);
+            xhr.send();
+
+        }
+    }
+
+    //****FUNCTIONS FOR INPUTS****//
+
+
     function doSmth(){
         let selectTime = document.getElementsByClassName('selectTime');
         if(selectTime[0].style.display === "none"){
@@ -71,6 +117,7 @@
         let progressBar = document.getElementById('progressBar');
         progressBar.value = progressBar.value + 1;
         if(progressBar.value === 100){
+            document.getElementById('sendBtn').disabled = false;
             clearInterval(timerForProgress);
             document.getElementById('loadingText').innerText = 'Видео загружено!';
         }
