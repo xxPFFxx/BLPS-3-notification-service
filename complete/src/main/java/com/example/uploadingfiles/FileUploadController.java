@@ -3,6 +3,7 @@ package com.example.uploadingfiles;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import com.example.uploadingfiles.storage.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -67,6 +68,12 @@ public class FileUploadController {
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public String handleStorageFileNotFound(StorageFileNotFoundException exc) {
+		return "uploadForm";
+	}
+
+	@ExceptionHandler(StorageException.class)
+	public String handleStorageException(StorageException storageException, Model model){
+		model.addAttribute("error", storageException.getMessage());
 		return "uploadForm";
 	}
 
