@@ -1,13 +1,42 @@
 package com.example.uploadingfiles.model;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "VideoInfo")
 public class VideoInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @Column(name = "Name")
     private String Name;
+    @Column(name = "Desc")
     private String Desc;
+    @Column(name = "category")
     private String category;
+    @Column(name = "releaseTime")
     private String releaseTime;
+    @Column(name = "releaseDate")
     private Date releaseDate;
+
+    public VideoInfo(String name, String desc, String category, String releaseTime, Date releaseDate) {
+        this.Name = name;
+        this.Desc = desc;
+        this.category = category;
+        this.releaseTime = releaseTime;
+        this.releaseDate = releaseDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return Name;
