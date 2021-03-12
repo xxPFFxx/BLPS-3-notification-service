@@ -93,7 +93,7 @@
             console.log(videoDate);
             console.log(videoTime);
             let xhr = new XMLHttpRequest();
-            xhr.open('GET', `/addVideoInfo?videoName=${videoName}&videoDesc=${videoDesc}&category=${videoCategory}&releaseTime=${videoTime}&releaseDate=${videoDate}`);
+            xhr.open('POST', `/addVideoInfo?videoName=${videoName}&videoDesc=${videoDesc}&category=${videoCategory}&releaseTime=${videoTime}&releaseDate=${videoDate}`);
             xhr.send();
 
         }

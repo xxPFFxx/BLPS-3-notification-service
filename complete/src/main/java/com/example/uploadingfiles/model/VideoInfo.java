@@ -10,7 +10,7 @@ public class VideoInfo {
     private long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "desc")
+    @Column(name = "description")
     private String desc;
     @Column(name = "category")
     private String category;

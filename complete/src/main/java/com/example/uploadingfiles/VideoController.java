@@ -15,7 +15,7 @@ public class VideoController {
 
     // http://localhost:8080/addVideoInfo?videoName=hi&videoDesc=desc&category=cat&releaseTime=timeee&releaseDate=2021-03-03
 
-    @RequestMapping("/addVideoInfo")
+    @PostMapping(value = "/addVideoInfo", produces = "application/json")
     public String uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
                                   @RequestParam String category, @RequestParam String releaseTime,
                                   @RequestParam String releaseDate){

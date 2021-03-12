@@ -2,9 +2,9 @@ package com.example.uploadingfiles.services;
 
 import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.repositories.VideoInfoRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class VideoInfoService {
 
 
