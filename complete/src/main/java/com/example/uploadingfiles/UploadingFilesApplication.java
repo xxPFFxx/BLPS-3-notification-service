@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan({"com.example.uploadingfiles.repositories", "com.example.uploadingfiles.storage"})
 @EnableConfigurationProperties(StorageProperties.class)
 public class UploadingFilesApplication {
 

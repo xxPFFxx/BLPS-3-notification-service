@@ -1,31 +1,34 @@
 package com.example.uploadingfiles.model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "VideoInfo")
+@Table(name = "videoinfo")
 public class VideoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "Name")
-    private String Name;
-    @Column(name = "Desc")
-    private String Desc;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "desc")
+    private String desc;
     @Column(name = "category")
     private String category;
-    @Column(name = "releaseTime")
-    private String releaseTime;
-    @Column(name = "releaseDate")
-    private String releaseDate;
+    @Column(name = "releasetime")
+    private String releasetime;
+    @Column(name = "releasedate")
+    private String releasedate;
 
-    public VideoInfo(String name, String desc, String category, String releaseTime, String releaseDate) {
-        this.Name = name;
-        this.Desc = desc;
+    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate) {
+        this.name = name;
+        this.desc = desc;
         this.category = category;
-        this.releaseTime = releaseTime;
-        this.releaseDate = releaseDate;
+        this.releasetime = releasetime;
+        this.releasedate = releasedate;
+    }
+
+    public VideoInfo() {
+
     }
 
     public long getId() {
@@ -37,19 +40,19 @@ public class VideoInfo {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDesc() {
-        return Desc;
+        return desc;
     }
 
     public void setDesc(String desc) {
-        Desc = desc;
+        this.desc = desc;
     }
 
     public String getCategory() {
@@ -60,20 +63,20 @@ public class VideoInfo {
         this.category = category;
     }
 
-    public String getReleaseTime() {
-        return releaseTime;
+    public String getReleasetime() {
+        return releasetime;
     }
 
-    public void setReleaseTime(String releaseTime) {
-        this.releaseTime = releaseTime;
+    public void setReleasetime(String releaseTime) {
+        this.releasetime = releaseTime;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public String getReleasedate() {
+        return releasedate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setReleasedate(String releaseDate) {
+        this.releasedate = releaseDate;
     }
 
 
