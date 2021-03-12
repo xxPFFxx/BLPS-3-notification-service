@@ -18,9 +18,9 @@ public class VideoInfo {
     @Column(name = "releaseTime")
     private String releaseTime;
     @Column(name = "releaseDate")
-    private Date releaseDate;
+    private String releaseDate;
 
-    public VideoInfo(String name, String desc, String category, String releaseTime, Date releaseDate) {
+    public VideoInfo(String name, String desc, String category, String releaseTime, String releaseDate) {
         this.Name = name;
         this.Desc = desc;
         this.category = category;
@@ -68,11 +68,11 @@ public class VideoInfo {
         this.releaseTime = releaseTime;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

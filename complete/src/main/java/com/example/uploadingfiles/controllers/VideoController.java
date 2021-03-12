@@ -1,12 +1,19 @@
 package com.example.uploadingfiles.controllers;
 
 import com.example.uploadingfiles.model.VideoInfo;
+import com.example.uploadingfiles.services.VideoInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 @RestController
-public class VideoController {
+public class VideoController{
+
+    @Autowired
+    private VideoInfoService videoInfoService;
 
     // http://localhost:8080/addVideoInfo?videoName=hi&videoDesc=desc&category=cat&releaseTime=timeee&releaseDate=2021-03-03
 
@@ -20,6 +27,7 @@ public class VideoController {
         System.out.println(category);
         System.out.println(releaseTime);
         System.out.println(releaseDate);
+        videoInfoService.saveVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate);
 
         //todo Вот здесь нужно добавить всё в PostgreSQL
 
