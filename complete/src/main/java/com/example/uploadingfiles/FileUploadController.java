@@ -3,6 +3,7 @@ package com.example.uploadingfiles;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import com.example.uploadingfiles.services.UserService;
 import com.example.uploadingfiles.storage.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +29,12 @@ import com.example.uploadingfiles.storage.StorageService;
 public class FileUploadController {
 
 	private final StorageService storageService;
+	private final UserService userService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService) {
+	public FileUploadController(StorageService storageService, UserService userService) {
 		this.storageService = storageService;
+		this.userService = userService;
 	}
 	@Value("errortext") String errorText;
 
@@ -43,7 +46,8 @@ public class FileUploadController {
 						"serveFile", path.getFileName().toString()).build().toUri().toString())
 				.collect(Collectors.toList()));
 
-		return "infoAboutVideo";
+		//return "infoAboutVideo";
+		return "uploadForm";
 	}
 
 	@GetMapping("/files/{filename:.+}")
@@ -56,9 +60,10 @@ public class FileUploadController {
 	}
 
 	@PostMapping("/")
-	public String handleFileUpload(@RequestParam("file") MultipartFile file,
+	public String handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
-
+		// userService.saveUser(login);
+		//TODO проверка на наличие регистрации пользователя
 		storageService.store(file);
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
