@@ -62,7 +62,12 @@ public class FileUploadController {
 	@PostMapping("/")
 	public String handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
-		// userService.saveUser(login);
+		if (userService.checkUser(login)){
+			System.out.println("Залогинен");
+		}
+		else {
+			System.out.println("Не залогинен");
+		}
 		//TODO проверка на наличие регистрации пользователя
 		storageService.store(file);
 		redirectAttributes.addFlashAttribute("message",
