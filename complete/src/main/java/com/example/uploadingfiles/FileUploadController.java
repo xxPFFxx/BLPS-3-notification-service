@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.example.uploadingfiles.storage.StorageFileNotFoundException;
 import com.example.uploadingfiles.storage.StorageService;
 
@@ -70,23 +69,23 @@ public class FileUploadController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
-
 	@PostMapping("/uploadVideo")
 	public String handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		if (userService.checkUser(login)){
 			System.out.println("Залогинен");
-			return "redirect:/infoAboutVideo";
+			storageService.store(file);
+			//TODO проверить формат и длину видео
+			//return "redirect:/infoAboutVideo";
+			return "redirect:/";
 		}
 		else {
 			System.out.println("Не залогинен");
 			redirectAttributes.addFlashAttribute("message",
 					"Пользователя с ником " + login + " не существует. Проверьте правильность ввода или зарегистрируйтесь.");
-
 			return "redirect:/";
 		}
-		//TODO проверка на наличие регистрации пользователя
-		//storageService.store(file);
+
 
 	}
 
