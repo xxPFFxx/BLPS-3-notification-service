@@ -8,6 +8,8 @@ public class VideoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(name="link")
+    private String link;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -19,7 +21,8 @@ public class VideoInfo {
     @Column(name = "releasedate")
     private String releasedate;
 
-    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate) {
+    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link) {
+        this.link = link;
         this.name = name;
         this.desc = desc;
         this.category = category;
@@ -29,6 +32,14 @@ public class VideoInfo {
 
     public VideoInfo() {
 
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public long getId() {

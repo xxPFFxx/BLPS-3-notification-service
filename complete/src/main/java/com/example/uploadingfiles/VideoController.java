@@ -10,9 +10,14 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 public class VideoController {
 
     private VideoInfoService videoInfoService;
@@ -29,10 +34,10 @@ public class VideoController {
 
 
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
-    public String uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
-                                  @RequestParam String category, @RequestParam String releaseTime,
-                                  @RequestParam String releaseDate, RedirectAttributes redirectAttributes,
-                                  Model model){
+    public Map<String, String>  uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
+                                               @RequestParam String category, @RequestParam String releaseTime,
+                                               @RequestParam String releaseDate, @RequestParam String link, RedirectAttributes redirectAttributes,
+                                               Model model){
         System.out.println("I CAUGHT SOMETHING! MAYBE IT'S A REQUEST!!!!");
         System.out.println(videoName);
         System.out.println(videoDesc);
@@ -40,19 +45,26 @@ public class VideoController {
         System.out.println(releaseTime);
         System.out.println(releaseDate);
 
-
-        videoInfoService.saveVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate);
+        if (videoInfoService.checkVideoInfo(link)){
+            videoInfoService.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
+        }
+        //videoInfoService.saveVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
+        HashMap<String, String> map = new HashMap<>();
         if (releaseTime.equals("")){
 //            redirectAttributes.addFlashAttribute("message",
 //                    "Видео "  + videoName + " загружено");
 //            model.addAttribute("message", );
-            return "Видео "  + videoName + " загружено";
+            map.put("message", "Видео "  + videoName + " загружено");
+            return map;
+            //return "Видео "  + videoName + " загружено";
         }
         else {
 //            redirectAttributes.addFlashAttribute("message",
 //                    "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
 //            model.addAttribute("message", "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
-            return "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime;
+            map.put("message", "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
+            return map;
+            //return "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime;
         }
 
     }

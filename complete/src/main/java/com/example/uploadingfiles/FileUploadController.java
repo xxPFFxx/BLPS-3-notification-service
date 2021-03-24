@@ -1,9 +1,14 @@
 package com.example.uploadingfiles;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import com.example.uploadingfiles.services.UserService;
+import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.storage.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,28 +17,25 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.uploadingfiles.storage.StorageFileNotFoundException;
 import com.example.uploadingfiles.storage.StorageService;
 
-@Controller
+@RestController
 public class FileUploadController {
 
 	private final StorageService storageService;
 	private final UserService userService;
+	private final VideoInfoService videoInfoService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService, UserService userService) {
+	public FileUploadController(StorageService storageService, UserService userService, VideoInfoService videoInfoService) {
 		this.storageService = storageService;
 		this.userService = userService;
+		this.videoInfoService = videoInfoService;
 	}
 	@Value("errortext") String errorText;
 
@@ -70,23 +72,53 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	@PostMapping("/uploadVideo")
-	public String handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
+	public Map<String, String> handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
+		HashMap<String, String> map = new HashMap<>();
 		if (userService.checkUser(login)){
 			System.out.println("Залогинен");
 			storageService.store(file);
-			//return "redirect:/infoAboutVideo";
-			return "infoAboutVideo";
+
+			int leftLimit = 97; // letter 'a'
+			int rightLimit = 122; // letter 'z'
+			int targetStringLength = 10;
+			Random random = new Random();
+
+			String generatedString = random.ints(leftLimit, rightLimit + 1)
+					.limit(targetStringLength)
+					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+					.toString();
+			//TODO проверка, нет ли такой линки уже
+			videoInfoService.saveVideoInfo(null, null, null, null, null, generatedString);
+
+
+			map.put("message", "Все пучком");
+			map.put("link", generatedString);
+			return map;
+			//return "infoAboutVideo";
 		}
 		else {
-			System.out.println("Не залогинен");
-			redirectAttributes.addFlashAttribute("message",
-					"Пользователя с ником " + login + " не существует. Проверьте правильность ввода или зарегистрируйтесь.");
-			return "redirect:/";
+				map.put("message", "Пользователь не зарегистрирован");
+			}
+		return map;
+//			System.out.println("Не залогинен");
+//			redirectAttributes.addFlashAttribute("message",
+//					"Пользователя с ником " + login + " не существует. Проверьте правильность ввода или зарегистрируйтесь.");
+			//return "redirect:/";
+		}
+	@GetMapping(value = "/checkUser", produces = "application/json")
+	public Map<String, String> checkUser(@RequestParam String login, Model model){
+			HashMap<String, String> map = new HashMap<>();
+			if (userService.checkUser(login)){
+				map.put("message", "Пользователь зарегистрирован");
+			}
+			else{
+				map.put("message", "Пользователь не зарегистрирован");
+			}
+		return map;
 		}
 
 
-	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public String handleStorageFileNotFound(StorageFileNotFoundException exc) {
@@ -94,9 +126,10 @@ public class FileUploadController {
 	}
 
 	@ExceptionHandler(StorageException.class)
-	public String handleStorageException(StorageException storageException, Model model){
-		model.addAttribute("error", storageException.getMessage());
-		return "uploadForm";
+	public Map<String, String> handleStorageException(StorageException storageException, Model model){
+		HashMap<String, String> map = new HashMap<>();
+		map.put("error", storageException.getMessage());
+		return map;
 	}
 
 }

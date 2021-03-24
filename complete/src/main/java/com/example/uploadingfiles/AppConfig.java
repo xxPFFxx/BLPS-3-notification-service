@@ -24,6 +24,16 @@ public class AppConfig {
     public VideoInfoRepository getMyDAOBean() {
         return new VideoInfoRepository() {
             @Override
+            public long countVideoInfosByLink(String link) {
+                return 0;
+            }
+
+            @Override
+            public void updateVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String eleaseDate, String link) {
+
+            }
+
+            @Override
             public List<VideoInfo> findAll() {
                 return null;
             }
