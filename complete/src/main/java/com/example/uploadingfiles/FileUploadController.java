@@ -50,6 +50,18 @@ public class FileUploadController {
 		return "uploadForm";
 	}
 
+	@GetMapping("/infoAboutVideo")
+	public String showInfoAboutVideo(Model model) throws IOException {
+
+		model.addAttribute("files", storageService.loadAll().map(
+				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+						"serveFile", path.getFileName().toString()).build().toUri().toString())
+				.collect(Collectors.toList()));
+
+		//return "infoAboutVideo";
+		return "infoAboutVideo";
+	}
+
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -59,21 +71,23 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-	@PostMapping("/")
+	@PostMapping("/uploadVideo")
 	public String handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		if (userService.checkUser(login)){
 			System.out.println("Залогинен");
+			return "redirect:/infoAboutVideo";
 		}
 		else {
 			System.out.println("Не залогинен");
+			redirectAttributes.addFlashAttribute("message",
+					"Пользователя с ником " + login + " не существует. Проверьте правильность ввода или зарегистрируйтесь.");
+
+			return "redirect:/";
 		}
 		//TODO проверка на наличие регистрации пользователя
-		storageService.store(file);
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+		//storageService.store(file);
 
-		return "redirect:/";
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
