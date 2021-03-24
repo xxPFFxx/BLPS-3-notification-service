@@ -67,6 +67,12 @@ public class FileSystemStorageService implements StorageService {
 			long ls = m.getDuration();
 			int second = (int) (ls / 1000);
 			System.out.println("The length of this video is:" + second + "second!");
+			System.out.println(Math.round(second/60.0 * 100.0) / 100.0);
+			if (Math.round(second/60.0 * 100.0) / 100.0 > 20){
+				throw new StorageException(
+					"Длина видео: " + Math.round(second/60.0 * 100.0) / 100.0 + " минут, должна быть меньше 20!"
+				);
+			}
 
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				// This is a security check
