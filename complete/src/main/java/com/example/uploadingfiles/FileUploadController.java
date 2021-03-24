@@ -75,9 +75,8 @@ public class FileUploadController {
 		if (userService.checkUser(login)){
 			System.out.println("Залогинен");
 			storageService.store(file);
-			//TODO проверить формат и длину видео
 			//return "redirect:/infoAboutVideo";
-			return "redirect:/";
+			return "infoAboutVideo";
 		}
 		else {
 			System.out.println("Не залогинен");

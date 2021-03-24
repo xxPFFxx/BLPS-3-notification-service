@@ -95,7 +95,7 @@
             let xhr = new XMLHttpRequest();
             xhr.open('POST', `/addVideoInfo?videoName=${videoName}&videoDesc=${videoDesc}&category=${videoCategory}&releaseTime=${videoTime}&releaseDate=${videoDate}`);
             xhr.send();
-
+            window.location.href = '/';
         }
     }
 
