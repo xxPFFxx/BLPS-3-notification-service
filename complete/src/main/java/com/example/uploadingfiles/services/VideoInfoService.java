@@ -26,4 +26,8 @@ public class VideoInfoService {
     public void updateVideoInfo(String videoName,String videoDesc,String category,String releaseTime,String releaseDate,String link){
         videoInfoRepository.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
     }
+
+    public VideoInfo getVideo(String link){
+        return videoInfoRepository.getVideoInfoByLink(link);
+    }
 }

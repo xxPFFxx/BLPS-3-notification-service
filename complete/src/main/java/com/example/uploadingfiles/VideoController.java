@@ -1,5 +1,6 @@
 package com.example.uploadingfiles;
 
+import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,22 @@ public class VideoController {
     // http://localhost:8080/addVideoInfo?videoName=hi&videoDesc=desc&category=cat&releaseTime=timeee&releaseDate=2021-03-03
 
 
+    @GetMapping(value = "/getVideo", produces = "application/json")
+    public VideoInfo getVideo(@RequestParam String link){
+        if (videoInfoService.checkVideoInfo(link)){
+            return videoInfoService.getVideo(link);
+        }
+        else {
+            return new VideoInfo("Не найдено", "Не найдено", "Не найдено", "Не найдено", "Не найдено", link);
+//            noVideoInfo(link);
+        }
+    }
 
+    public Map<String, String> noVideoInfo(String link){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("message", "Не нашлось видео по ссылке " + link);
+        return map;
+    }
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
     public Map<String, String>  uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
                                                @RequestParam String category, @RequestParam String releaseTime,
@@ -44,12 +60,16 @@ public class VideoController {
         System.out.println(category);
         System.out.println(releaseTime);
         System.out.println(releaseDate);
-
+        HashMap<String, String> map = new HashMap<>();
         if (videoInfoService.checkVideoInfo(link)){
             videoInfoService.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
         }
+        else {
+            map.put("message", "Видео не найдено");
+            return map;
+        }
         //videoInfoService.saveVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
-        HashMap<String, String> map = new HashMap<>();
+
         if (releaseTime.equals("")){
 //            redirectAttributes.addFlashAttribute("message",
 //                    "Видео "  + videoName + " загружено");
