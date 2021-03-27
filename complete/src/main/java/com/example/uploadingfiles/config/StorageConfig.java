@@ -19,7 +19,7 @@ public class StorageConfig {
 //        dataSourceBuilder.password("vrm232");
         dataSourceBuilder.url("jdbc:postgresql://localhost:5432/postgres");
         dataSourceBuilder.username("postgres");
-        dataSourceBuilder.password("Postgreshehmda");
+        dataSourceBuilder.password("gfhjkm2000");
 
         return dataSourceBuilder.build();
     }
