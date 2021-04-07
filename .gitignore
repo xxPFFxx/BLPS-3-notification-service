@@ -30,5 +30,5 @@ dependency-reduced-pom.xml
 README.html
  
 upload-dir
-application.properties
+complete\src\main\resources\application.properties
 StorageConfig.java
