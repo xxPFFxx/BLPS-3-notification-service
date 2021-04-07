@@ -10,6 +10,16 @@ public class User {
     private long id;
     @Column(name = "login")
     String login;
+    @Column(name = "password")
+    String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public long getId() {
         return id;
@@ -28,6 +38,11 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public User(String login) {

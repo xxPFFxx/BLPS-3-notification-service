@@ -16,10 +16,10 @@ public class StorageConfig {
         dataSourceBuilder.driverClassName("org.postgresql.Driver");
 //        dataSourceBuilder.url("jdbc:postgresql://localhost:5431/studs");
 //        dataSourceBuilder.username("s265096");
-//        dataSourceBuilder.password("vrm232");
+//        dataSourceBuilder.password("***");
         dataSourceBuilder.url("jdbc:postgresql://localhost:5432/postgres");
         dataSourceBuilder.username("postgres");
-        dataSourceBuilder.password("gfhjkm2000");
+        dataSourceBuilder.password("***");
 
         return dataSourceBuilder.build();
     }

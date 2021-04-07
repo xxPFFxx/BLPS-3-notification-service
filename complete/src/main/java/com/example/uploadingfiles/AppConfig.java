@@ -17,7 +17,7 @@ import java.util.Optional;
 @Configuration
 public class AppConfig {
     @Bean
-    public PasswordEncoder encoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
     @Bean

@@ -20,11 +20,15 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public Map<String, String> addUser(@RequestParam String login){
-        userService.saveUser(login);
+    public Map<String, String> addUser(@RequestBody User user){
+        userService.saveUser(user);
         HashMap<String, String> map = new HashMap<>();
-        map.put("message", "Пользователь с ником " + login + " зарегистрирован");
+        map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
         return map;
+        //TODO добавить в сущность User пароль и хранить его в зашифрованном виде
+        //TODO Разобраться, как эффективнее сохранять видео на сервер (чтобы тратило O(1) оперативы)
+        //TODO Убрать с gita пароли и конфиги
+        //TODO (возможно) Убрать @Query аннотации и заменить средставми Spring, где возможно
     }
 
 //    @GetMapping("/getUser")
