@@ -34,7 +34,7 @@ public class AppConfig {
             }
 
             @Override
-            public VideoInfo getVideoInfoByLink(String link) {
+            public VideoInfo findVideoInfoByLink(String link) {
                 return null;
             }
 

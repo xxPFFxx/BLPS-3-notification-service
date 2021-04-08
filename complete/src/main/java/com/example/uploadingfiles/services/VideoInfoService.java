@@ -28,6 +28,6 @@ public class VideoInfoService {
     }
 
     public VideoInfo getVideo(String link){
-        return videoInfoRepository.getVideoInfoByLink(link);
+        return videoInfoRepository.findVideoInfoByLink(link);
     }
 }

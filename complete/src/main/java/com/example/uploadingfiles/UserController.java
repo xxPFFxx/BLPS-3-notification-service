@@ -25,8 +25,6 @@ public class UserController {
         HashMap<String, String> map = new HashMap<>();
         map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
         return map;
-        //TODO Разобраться, как эффективнее сохранять видео на сервер (чтобы тратило O(1) оперативы)
-        //TODO (возможно) Убрать @Query аннотации и заменить средставми Spring, где возможно
     }
 
     @PostMapping("/checkAuth")

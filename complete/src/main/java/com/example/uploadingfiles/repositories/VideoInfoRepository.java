@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface VideoInfoRepository extends JpaRepository<VideoInfo, Long> {
 
-    @Query("select count (v) from VideoInfo v where v.link= :link")
+//    @Query("select count (v) from VideoInfo v where v.link= :link")
+//    long countVideoInfosByLink(String link);
     long countVideoInfosByLink(String link);
 
     @Transactional
@@ -19,6 +20,7 @@ public interface VideoInfoRepository extends JpaRepository<VideoInfo, Long> {
     @Query("update VideoInfo v set v.name=:videoName, v.desc=:videoDesc, v.category=:category, v.releasetime=:releaseTime, v.releasedate=:releaseDate where v.link= :link")
     void updateVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link);
 
-    @Query("select v from VideoInfo v where v.link= :link")
-    VideoInfo getVideoInfoByLink(String link);
+//    @Query("select v from VideoInfo v where v.link= :link")
+//    VideoInfo getVideoInfoByLink(String link);
+    VideoInfo findVideoInfoByLink(String link);
 }

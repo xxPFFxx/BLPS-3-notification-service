@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select count (u) from User u where u.login= :login")
+//    @Query("select count (u) from User u where u.login= :login")
+//    long countUsersByLogin(String login);
     long countUsersByLogin(String login);
 
     User findUserByLogin(String login);
