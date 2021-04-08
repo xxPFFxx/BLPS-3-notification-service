@@ -26,4 +26,11 @@ public class UserService {
         user1.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user1);
     }
+
+    public boolean checkAuth(User user){
+        System.out.println(passwordEncoder.encode(user.getPassword()));
+        User userFromDB = userRepository.findUserByLogin(user.getLogin());
+        if (userFromDB == null) return false;
+        return userFromDB.getLogin().equals(user.getLogin()) && passwordEncoder.matches(user.getPassword(), userFromDB.getPassword());
+    }
 }

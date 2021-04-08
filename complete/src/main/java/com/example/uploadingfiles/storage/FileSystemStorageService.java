@@ -66,14 +66,15 @@ public class FileSystemStorageService implements StorageService {
 			}
 			try (InputStream inputStream = file.getInputStream()) {
 				try (
-						InputStream inputStream2 = new BufferedInputStream(inputStream);
-						OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(destinationFile)));
+						BufferedInputStream inputStream2 = new BufferedInputStream(inputStream);
+						BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(String.valueOf(destinationFile)));
 				) {
 
 					byte[] buffer = new byte[8192];
 
 					while (inputStream2.read(buffer) != -1) {
 						outputStream.write(buffer);
+
 					}
 
 				} catch (IOException ex) {

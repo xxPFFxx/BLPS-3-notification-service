@@ -1,5 +1,6 @@
 package com.example.uploadingfiles;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -73,12 +74,13 @@ public class FileUploadController {
 	}
 	@PostMapping("/uploadVideo")
 	public Map<String, String> handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws IOException {
 		HashMap<String, String> map = new HashMap<>();
 		if (userService.checkUser(login)){
 			System.out.println("Залогинен");
+//			String uploadPath = "C:\\Users\\Daniil\\IdeaProjects\\BLPS-1\\upload-dir";
+//			file.transferTo(new File(uploadPath + "/" + file.getOriginalFilename()));
 			storageService.store(file);
-
 			int leftLimit = 97; // letter 'a'
 			int rightLimit = 122; // letter 'z'
 			int targetStringLength = 10;

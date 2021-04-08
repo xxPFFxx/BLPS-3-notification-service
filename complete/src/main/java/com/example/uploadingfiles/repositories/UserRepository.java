@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select count (u) from User u where u.login= :login")
     long countUsersByLogin(String login);
+
+    User findUserByLogin(String login);
 }

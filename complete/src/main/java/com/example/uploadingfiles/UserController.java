@@ -25,12 +25,16 @@ public class UserController {
         HashMap<String, String> map = new HashMap<>();
         map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
         return map;
-        //TODO добавить в сущность User пароль и хранить его в зашифрованном виде
         //TODO Разобраться, как эффективнее сохранять видео на сервер (чтобы тратило O(1) оперативы)
-        //TODO Убрать с gita пароли и конфиги
         //TODO (возможно) Убрать @Query аннотации и заменить средставми Spring, где возможно
     }
 
-//    @GetMapping("/getUser")
-//    public String g
+    @PostMapping("/checkAuth")
+    public Map<String, String> checkAuth(@RequestBody User user){
+        HashMap<String, String> map = new HashMap<>();
+
+        if (userService.checkAuth(user)) map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
+        else map.put("message", "Пользователь с ником " + user.getLogin() + " не зарегистрирован или пароль неверный");
+        return map;
+    }
 }
