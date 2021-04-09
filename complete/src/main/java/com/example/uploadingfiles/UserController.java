@@ -20,11 +20,11 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public Map<String, String> addUser(@RequestBody User user){
-        userService.saveUser(user);
-        HashMap<String, String> map = new HashMap<>();
-        map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
-        return map;
+    public User addUser(@RequestBody User user){
+          return userService.saveUser(user);
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
+//        return map;
     }
 
     @PostMapping("/checkAuth")
