@@ -1,6 +1,7 @@
 package com.example.uploadingfiles.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -12,6 +13,10 @@ public class User {
     String login;
     @Column(name = "password")
     String password;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     public String getPassword() {
         return password;
@@ -43,6 +48,14 @@ public class User {
     public User(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public User(String login) {
