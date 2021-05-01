@@ -31,8 +31,8 @@ public class UserController {
     public Map<String, String> checkAuth(@RequestBody User user){
         HashMap<String, String> map = new HashMap<>();
 
-        if (userService.checkAuth(user)) map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
-        else map.put("message", "Пользователь с ником " + user.getLogin() + " не зарегистрирован или пароль неверный");
+        if (userService.checkAuth(user)) map.put("message", "Пользователь с ником " + user.getUsername() + " зарегистрирован");
+        else map.put("message", "Пользователь с ником " + user.getUsername() + " не зарегистрирован или пароль неверный");
         return map;
     }
 }

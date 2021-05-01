@@ -1,7 +1,6 @@
 package com.example.uploadingfiles.security;
 
 import com.example.uploadingfiles.repositories.UserRepository;
-import com.example.uploadingfiles.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,18 +10,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private UserService userService;
+    private UserPrincipalDetailsService userPrincipalDetailsService;
     private UserRepository userRepository;
 
-    public SecurityConfiguration(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
+    public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository userRepository) {
+        this.userPrincipalDetailsService = userPrincipalDetailsService;
         this.userRepository = userRepository;
     }
 
@@ -39,8 +38,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 // add jwt filters (1. authentication, 2. authorization)
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(),  this.userRepository))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(),  this.userRepository))
                 .authorizeRequests()
                 // configure access rules
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
@@ -53,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService((UserDetailsService) this.userService);
+        daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailsService);
 
         return daoAuthenticationProvider;
     }
