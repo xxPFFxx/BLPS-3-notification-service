@@ -40,20 +40,13 @@ public class VideoController {
         }
         else {
             return new VideoInfo("Не найдено", "Не найдено", "Не найдено", "Не найдено", "Не найдено", link);
-//            noVideoInfo(link);
         }
     }
 
-    public Map<String, String> noVideoInfo(String link){
-        HashMap<String, String> map = new HashMap<>();
-        map.put("message", "Не нашлось видео по ссылке " + link);
-        return map;
-    }
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
     public Map<String, String>  uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
                                                @RequestParam String category, @RequestParam String releaseTime,
-                                               @RequestParam String releaseDate, @RequestParam String link, RedirectAttributes redirectAttributes,
-                                               Model model){
+                                               @RequestParam String releaseDate, @RequestParam String link){
         System.out.println("I CAUGHT SOMETHING! MAYBE IT'S A REQUEST!!!!");
         System.out.println(videoName);
         System.out.println(videoDesc);
@@ -68,24 +61,32 @@ public class VideoController {
             map.put("message", "Видео не найдено");
             return map;
         }
-        //videoInfoService.saveVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
 
         if (releaseTime.equals("")){
-//            redirectAttributes.addFlashAttribute("message",
-//                    "Видео "  + videoName + " загружено");
-//            model.addAttribute("message", );
             map.put("message", "Видео "  + videoName + " загружено");
             return map;
-            //return "Видео "  + videoName + " загружено";
         }
         else {
-//            redirectAttributes.addFlashAttribute("message",
-//                    "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
-//            model.addAttribute("message", "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
             map.put("message", "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
             return map;
-            //return "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime;
         }
 
     }
+
+    @PostMapping(value = "/admin/deleteVideo", produces = "application/json")
+    public int deleteVideo(@RequestParam String link){
+        return videoInfoService.deleteVideo(link);
+    }
+
+    @PostMapping(value = "/moderator/changeVideoName", produces = "application/json")
+    public int changeVideoName(@RequestParam String link, @RequestParam String videoName){
+        return videoInfoService.changeVideoName(link, videoName);
+    }
+
+    @PostMapping(value = "/moderator/changeVideoDesc", produces = "application/json")
+    public int changeVideoDesc(@RequestParam String link, @RequestParam String videoDesc){
+        return videoInfoService.changeVideoDesc(link, videoDesc);
+    }
 }
+
+
