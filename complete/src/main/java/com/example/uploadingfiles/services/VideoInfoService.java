@@ -32,4 +32,16 @@ public class VideoInfoService {
     public VideoInfo getVideo(String link){
         return videoInfoRepository.findVideoInfoByLink(link);
     }
+
+    public int deleteVideo(String link){
+        return videoInfoRepository.deleteVideoInfoByLink(link);
+    }
+
+    public int changeVideoName(String link, String videoName){
+        return videoInfoRepository.renameVideoNameByLink(link, videoName);
+    }
+
+    public int changeVideoDesc(String link, String videoDesc){
+        return videoInfoRepository.renameVideoDescByLink(link, videoDesc);
+    }
 }
