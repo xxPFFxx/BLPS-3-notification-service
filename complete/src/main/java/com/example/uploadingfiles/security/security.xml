@@ -1,43 +1,26 @@
-<ArrayList>
-  <item>
-    <id>456</id>
-    <username>dan</username>
-    <password>$2a$10$Hv/M0OVTosCN.Ue0EI8ZJeiPXxh.fii3TnRsDEZGExfd7abO.RL3W</password>
-    <active>1</active>
-    <roles>USER</roles>
-    <permissions></permissions>
-    <permissionList/>
-    <roleList>
-      <roleList>USER</roleList>
-    </roleList>
-  </item>
-  <item>
-    <id>457</id>
-    <username>admin</username>
-    <password>$2a$10$EwMAgLsAfgSCdv5PW6RY4umd6jpEp9bmsV2ZWLnQIvLEzFlLXsUqC</password>
-    <active>1</active>
-    <roles>ADMIN</roles>
-    <permissions>ACCESS_TEST1,ACCESS_TEST2</permissions>
-    <permissionList>
-      <permissionList>ACCESS_TEST1</permissionList>
-      <permissionList>ACCESS_TEST2</permissionList>
-    </permissionList>
-    <roleList>
-      <roleList>ADMIN</roleList>
-    </roleList>
-  </item>
-  <item>
-    <id>458</id>
-    <username>moderator</username>
-    <password>$2a$10$3mwi98DwUqq8389w/UBOG.omh5exlzJOuaJ6sSJmFYv40/ds8kYoS</password>
-    <active>1</active>
-    <roles>MODERATOR</roles>
-    <permissions>ACCESS_TEST1</permissions>
-    <permissionList>
-      <permissionList>ACCESS_TEST1</permissionList>
-    </permissionList>
-    <roleList>
-      <roleList>MODERATOR</roleList>
-    </roleList>
-  </item>
-</ArrayList>
+<users>
+<User>
+  <id>477</id>
+  <username>dan</username>
+  <password>$2a$10$EsOJakJOS9X5lsWPVEq3auU8kGp4e7MrWI4DrGPzuNx3RwZvCh1IC</password>
+  <active>1</active>
+  <roles>USER</roles>
+  <permissions></permissions>
+</User>
+<User>
+  <id>478</id>
+  <username>admin</username>
+  <password>$2a$10$kxPm71KI1uiMr9BnGxprTuYxM7V3Za/i0axvnqadlLmR7qcKNLcgC</password>
+  <active>1</active>
+  <roles>ADMIN</roles>
+  <permissions></permissions>
+</User>
+<User>
+  <id>479</id>
+  <username>moderator</username>
+  <password>$2a$10$8Wkn8S9YRUCqrMbPijOhdu24zlEromN.QNSoaRE43EcvpHrP9PTg2</password>
+  <active>1</active>
+  <roles>MODERATOR</roles>
+  <permissions></permissions>
+</User>
+</users>

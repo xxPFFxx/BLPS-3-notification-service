@@ -1,4 +1,4 @@
-package com.example.uploadingfiles.storage;
+package com.example.uploadingfiles.services;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -6,17 +6,19 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 //import it.sauronsoftware.jave.InputFormatException;
 //import it.sauronsoftware.jave.MultimediaInfo;
+import com.example.uploadingfiles.exceptions.StorageException;
+import com.example.uploadingfiles.exceptions.StorageFileNotFoundException;
+import com.example.uploadingfiles.util.StorageProperties;
+import com.example.uploadingfiles.util.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 //import it.sauronsoftware.jave.Encoder;
 //import it.sauronsoftware.jave.EncoderException;

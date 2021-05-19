@@ -23,9 +23,6 @@ import java.util.List;
 public class DbInit implements CommandLineRunner {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-    @JacksonXmlProperty(localName = "user")
-    @JacksonXmlElementWrapper(localName = "users")
-    List<User> userList = new ArrayList<>();
 
     public DbInit(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -39,8 +36,8 @@ public class DbInit implements CommandLineRunner {
 
         // Create users
         User dan = new User("dan",passwordEncoder.encode("dan123"),"USER","");
-        User admin = new User("admin",passwordEncoder.encode("admin123"),"ADMIN","ACCESS_TEST1,ACCESS_TEST2");
-        User moderator = new User("moderator",passwordEncoder.encode("moderator123"),"MODERATOR","ACCESS_TEST1");
+        User admin = new User("admin",passwordEncoder.encode("admin123"),"ADMIN","");
+        User moderator = new User("moderator",passwordEncoder.encode("moderator123"),"MODERATOR","");
 
 //        @JacksonXmlProperty(localName = "user")
 //        @JacksonXmlElementWrapper(localName = "ArrayList")
@@ -48,21 +45,23 @@ public class DbInit implements CommandLineRunner {
 
         // Save to db
         this.userRepository.saveAll(users);
-        userList.add(dan);
-        userList.add(admin);
-        userList.add(moderator);
         ObjectMapper mapper = new XmlMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        JsonGenerator g = mapper.getFactory().createGenerator(new FileOutputStream("complete/src/main/java/com/example/uploadingfiles/security/security.xml"));
+//        JsonGenerator g = mapper.getFactory().createGenerator(new FileOutputStream("complete/src/main/java/com/example/uploadingfiles/security/security.xml"));
 //        for(User user : users) {
 //            mapper.writeValue(g, user);
 //        }
-        mapper.writeValue(g, userList);
-        String xmlString = mapper.writeValueAsString(dan);
-        System.out.println("<users>\n" + xmlString.replaceAll("<permissionList/>", "")
+//        mapper.writeValue(g, userList);
+        String xmlStringDan = mapper.writeValueAsString(dan);
+        String xmlStringAdmin = mapper.writeValueAsString(admin);
+        String xmlStringModerator = mapper.writeValueAsString(moderator);
+        String xmlString = xmlStringDan + xmlStringAdmin + xmlStringModerator;
+        xmlString = "<users>\n" + xmlString.replaceAll("<permissionList/>", "")
                 .replaceAll("<roleList>\\s", "")
                 .replaceAll("\\s</roleList>", "")
-                .replaceAll("<roleList>.*?</roleList>", "").replaceAll(">\\s{10,}<", ">\n<") + "</users>");
-        // Edit this code and read password and roles from data base or files
+                .replaceAll("<roleList>.*?</roleList>", "").replaceAll(">\\s{10,}<", ">\n<") + "</users>";
+        FileWriter writer = new FileWriter("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml", false);
+        writer.write(xmlString);
+        writer.close();
     }
 }
