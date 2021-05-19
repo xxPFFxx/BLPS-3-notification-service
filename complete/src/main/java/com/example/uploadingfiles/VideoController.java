@@ -78,6 +78,19 @@ public class VideoController {
     public int changeVideoDesc(@RequestParam String link, @RequestParam String videoDesc){
         return videoInfoService.changeVideoDesc(link, videoDesc);
     }
+
+    @PostMapping(value = "/moderator/changeVideoCategory", produces = "application/json")
+    public int changeVideoCategory(@RequestParam String link, @RequestParam String videoCategory){
+        return videoInfoService.changeVideoCategory(link, videoCategory);
+    }
+
+    @PostMapping(value = "/moderator/changeVideoInfo", produces = "application/json")
+    public int changeVideoInfo(@RequestParam String link,@RequestParam String videoName, @RequestParam String videoDesc, @RequestParam String videoCategory ){
+        System.out.println(videoName);
+        System.out.println(videoDesc);
+        System.out.println(videoCategory);
+        return videoInfoService.changeVideoInfo(link, videoName, videoDesc, videoCategory);
+    }
 }
 
 
