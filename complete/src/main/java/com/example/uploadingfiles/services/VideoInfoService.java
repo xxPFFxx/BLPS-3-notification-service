@@ -44,4 +44,16 @@ public class VideoInfoService {
     public int changeVideoDesc(String link, String videoDesc){
         return videoInfoRepository.renameVideoDescByLink(link, videoDesc);
     }
+
+    public int changeVideoCategory(String link, String category){
+        return videoInfoRepository.renameVideoCategoryByLink(link, category);
+    }
+
+    @Transactional
+    public int changeVideoInfo(String link, String videoName, String videoDesc, String videoCategory){
+        if (!videoName.equals("")) videoInfoRepository.renameVideoNameByLink(link, videoName);
+        if (!videoDesc.equals("")) videoInfoRepository.renameVideoDescByLink(link, videoDesc);
+        if (!videoCategory.equals("")) videoInfoRepository.renameVideoCategoryByLink(link, videoCategory);
+        return 1;
+    }
 }
