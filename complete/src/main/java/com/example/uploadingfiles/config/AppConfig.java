@@ -36,7 +36,7 @@ public class AppConfig {
     public DataSource getDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.postgresql.Driver");
-//        dataSourceBuilder.url("jdbc:postgresql://pg:5431/studs");
+//        dataSourceBuilder.url("jdbc:postgresql://pg:5432/studs");
 //        dataSourceBuilder.username("s265096");
 //        dataSourceBuilder.password("vrm232");
 
