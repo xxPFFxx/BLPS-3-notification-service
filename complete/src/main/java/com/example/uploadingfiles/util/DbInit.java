@@ -60,7 +60,9 @@ public class DbInit implements CommandLineRunner {
                 .replaceAll("<roleList>\\s", "")
                 .replaceAll("\\s</roleList>", "")
                 .replaceAll("<roleList>.*?</roleList>", "").replaceAll(">\\s{10,}<", ">\n<") + "</users>";
+
         FileWriter writer = new FileWriter("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml", false);
+        //FileWriter writer = new FileWriter("complete/src/main/resources/security.xml", false);
         writer.write(xmlString);
         writer.close();
     }
