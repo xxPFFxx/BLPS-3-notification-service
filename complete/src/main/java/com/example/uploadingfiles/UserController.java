@@ -6,12 +6,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/user")
 public class UserController {
 
     private final UserService userService;
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/admin/getAllUsers", produces = "application/json")
-    public List<User> getUsers() throws JsonProcessingException {
+    public List<User> getUsers() throws IOException {
         return userService.getUsers();
     }
 }

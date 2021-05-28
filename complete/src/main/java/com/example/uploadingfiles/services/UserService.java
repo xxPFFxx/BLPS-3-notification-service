@@ -14,6 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -51,8 +55,10 @@ public class UserService implements UserDetailsService {
         return userPrincipal;
     }
 
-    public List<User> getUsers() throws JsonProcessingException {
+    public List<User> getUsers() throws IOException {
         ObjectMapper mapper = new XmlMapper();
-        return mapper.readValue("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml", new TypeReference<List<User>>() {});
+        InputStream inputStream = new FileInputStream("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml");
+        TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
+        return mapper.readValue(inputStream, typeReference);
     }
 }

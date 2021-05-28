@@ -38,7 +38,6 @@ public class UserPrincipalDetailsService implements UserDetailsService {
     private User readPasswordFromFileOrDatabase(String username) throws IOException {
         ObjectMapper mapper = new XmlMapper();
         InputStream inputStream = new FileInputStream("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml");
-        //InputStream inputStream = getClass().getResourceAsStream("/security.xml");
         TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
         List<User> persons = mapper.readValue(inputStream, typeReference);
         for(User p :persons) {
