@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.services.UserService;
 import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.exceptions.StorageException;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -70,41 +72,23 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	@PostMapping("/uploadVideo")
-	public Map<String, String> handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) throws IOException {
+	public ResponseEntity<?> handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file
+									  ) throws IOException {
 		HashMap<String, String> map = new HashMap<>();
-		if (userService.checkUser(login)){
-			System.out.println("Залогинен");
-//			String uploadPath = "C:\\Users\\Daniil\\IdeaProjects\\BLPS-1\\upload-dir";
-//			file.transferTo(new File(uploadPath + "/" + file.getOriginalFilename()));
 			storageService.store(file);
 			int leftLimit = 97; // letter 'a'
 			int rightLimit = 122; // letter 'z'
 			int targetStringLength = 10;
 			Random random = new Random();
-
 			String generatedString = random.ints(leftLimit, rightLimit + 1)
 					.limit(targetStringLength)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					.toString();
 			//TODO проверка, нет ли такой линки уже
-			videoInfoService.saveVideoInfo(null, null, null, null, null, generatedString);
 
+			return new ResponseEntity<>(videoInfoService.saveVideoInfo(null, null, null, null, null, generatedString),HttpStatus.OK);
+		}
 
-			map.put("message", "Все пучком");
-			map.put("link", generatedString);
-			return map;
-			//return "infoAboutVideo";
-		}
-		else {
-				map.put("message", "Пользователь не зарегистрирован");
-			}
-		return map;
-//			System.out.println("Не залогинен");
-//			redirectAttributes.addFlashAttribute("message",
-//					"Пользователя с ником " + login + " не существует. Проверьте правильность ввода или зарегистрируйтесь.");
-			//return "redirect:/";
-		}
 	@GetMapping(value = "/checkUser", produces = "application/json")
 	public Map<String, String> checkUser(@RequestParam String login, Model model){
 			HashMap<String, String> map = new HashMap<>();

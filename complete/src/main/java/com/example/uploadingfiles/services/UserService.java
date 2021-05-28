@@ -3,12 +3,18 @@ package com.example.uploadingfiles.services;
 import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.repositories.UserRepository;
 import com.example.uploadingfiles.security.UserPrincipal;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -43,5 +49,10 @@ public class UserService implements UserDetailsService {
         UserPrincipal userPrincipal = new UserPrincipal(user);
 
         return userPrincipal;
+    }
+
+    public List<User> getUsers() throws JsonProcessingException {
+        ObjectMapper mapper = new XmlMapper();
+        return mapper.readValue("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml", new TypeReference<List<User>>() {});
     }
 }

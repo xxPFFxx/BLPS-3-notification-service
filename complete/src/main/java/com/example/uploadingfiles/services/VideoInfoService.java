@@ -16,9 +16,9 @@ public class VideoInfoService {
         this.videoInfoRepository = videoInfoRepository;
     }
 
-    public void saveVideoInfo(String videoName,String videoDesc,String category,String releaseTime,String releaseDate, String link){
+    public VideoInfo saveVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link){
         VideoInfo videoInfo = new VideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
-        videoInfoRepository.save(videoInfo);
+        return videoInfoRepository.save(videoInfo);
     }
 
     public boolean checkVideoInfo(String link){

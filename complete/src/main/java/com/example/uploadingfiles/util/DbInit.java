@@ -47,11 +47,6 @@ public class DbInit implements CommandLineRunner {
         this.userRepository.saveAll(users);
         ObjectMapper mapper = new XmlMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
-//        JsonGenerator g = mapper.getFactory().createGenerator(new FileOutputStream("complete/src/main/java/com/example/uploadingfiles/security/security.xml"));
-//        for(User user : users) {
-//            mapper.writeValue(g, user);
-//        }
-//        mapper.writeValue(g, userList);
         String xmlStringDan = mapper.writeValueAsString(dan);
         String xmlStringAdmin = mapper.writeValueAsString(admin);
         String xmlStringModerator = mapper.writeValueAsString(moderator);

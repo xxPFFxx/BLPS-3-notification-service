@@ -33,3 +33,4 @@ upload-dir
 complete\src\main\resources\application.properties
 complete\src\main\java\com\example\uploadingfiles\config\StorageConfig.java
 complete\src\main\java\com\example\uploadingfiles\security\security.xml
+complete\src\main\java\com\example\uploadingfiles\config\AppConfig.java

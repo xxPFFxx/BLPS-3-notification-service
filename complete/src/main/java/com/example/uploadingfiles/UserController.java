@@ -2,10 +2,12 @@ package com.example.uploadingfiles;
 
 import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,9 +24,6 @@ public class UserController {
     @PostMapping("/addUser")
     public User addUser(@RequestBody User user){
           return userService.saveUser(user);
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put("message", "Пользователь с ником " + user.getLogin() + " зарегистрирован");
-//        return map;
     }
 
     @PostMapping("/checkAuth")
@@ -34,5 +33,10 @@ public class UserController {
         if (userService.checkAuth(user)) map.put("message", "Пользователь с ником " + user.getUsername() + " зарегистрирован");
         else map.put("message", "Пользователь с ником " + user.getUsername() + " не зарегистрирован или пароль неверный");
         return map;
+    }
+
+    @GetMapping(value = "/admin/getAllUsers", produces = "application/json")
+    public List<User> getUsers() throws JsonProcessingException {
+        return userService.getUsers();
     }
 }
