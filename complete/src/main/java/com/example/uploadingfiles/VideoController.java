@@ -4,6 +4,8 @@ import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.util.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,31 +37,15 @@ public class VideoController {
     }
 
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
-    public Map<String, String>  uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
-                                               @RequestParam String category, @RequestParam String releaseTime,
-                                               @RequestParam String releaseDate, @RequestParam String link){
-        System.out.println("I CAUGHT SOMETHING! MAYBE IT'S A REQUEST!!!!");
-        System.out.println(videoName);
-        System.out.println(videoDesc);
-        System.out.println(category);
-        System.out.println(releaseTime);
-        System.out.println(releaseDate);
-        HashMap<String, String> map = new HashMap<>();
+    public ResponseEntity<?> uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
+                                          @RequestParam String category, @RequestParam String releaseTime,
+                                          @RequestParam String releaseDate, @RequestParam String link){
         if (videoInfoService.checkVideoInfo(link)){
-            videoInfoService.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
+            return new ResponseEntity<>(videoInfoService.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link),HttpStatus.OK);
         }
         else {
-            map.put("message", "Видео не найдено");
-            return map;
-        }
-
-        if (releaseTime.equals("")){
-            map.put("message", "Видео "  + videoName + " загружено");
-            return map;
-        }
-        else {
-            map.put("message", "Видео "  + videoName + " будет опубликовано " + releaseDate + " в " + releaseTime);
-            return map;
+            //map.put("message", "Видео не найдено");
+            return new ResponseEntity<>("Видео не найдено", HttpStatus.BAD_REQUEST);
         }
 
     }

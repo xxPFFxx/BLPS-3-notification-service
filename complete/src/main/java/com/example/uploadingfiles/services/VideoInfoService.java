@@ -25,8 +25,8 @@ public class VideoInfoService {
         return videoInfoRepository.countVideoInfosByLink(link) > 0;
     }
 
-    public void updateVideoInfo(String videoName,String videoDesc,String category,String releaseTime,String releaseDate,String link){
-        videoInfoRepository.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
+    public int updateVideoInfo(String videoName,String videoDesc,String category,String releaseTime,String releaseDate,String link){
+        return videoInfoRepository.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
     }
 
     public VideoInfo getVideo(String link){

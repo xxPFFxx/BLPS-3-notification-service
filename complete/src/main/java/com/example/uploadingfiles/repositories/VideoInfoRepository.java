@@ -18,7 +18,7 @@ public interface VideoInfoRepository extends JpaRepository<VideoInfo, Long> {
     @Transactional
     @Modifying
     @Query("update VideoInfo v set v.name=:videoName, v.desc=:videoDesc, v.category=:category, v.releasetime=:releaseTime, v.releasedate=:releaseDate where v.link= :link")
-    void updateVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link);
+    int updateVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link);
 
 //    @Query("select v from VideoInfo v where v.link= :link")
 //    VideoInfo getVideoInfoByLink(String link);
