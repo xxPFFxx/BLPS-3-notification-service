@@ -3,7 +3,7 @@ package com.example.uploadingfiles.services;
 import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.repositories.UserRepository;
 import com.example.uploadingfiles.security.UserPrincipal;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.uploadingfiles.util.DbInit;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -46,15 +46,7 @@ public class UserService implements UserDetailsService {
         for (User user2: users){
             xmlString += mapper.writeValueAsString(user2);
         }
-        xmlString = "<users>\n" + xmlString.replaceAll("<permissionList/>", "")
-                .replaceAll("<roleList>\\s", "")
-                .replaceAll("\\s</roleList>", "")
-                .replaceAll("<roleList>.*?</roleList>", "").replaceAll(">\\s{10,}<", ">\n<") + "</users>";
-
-        FileWriter writer = new FileWriter("complete\\src\\main\\java\\com\\example\\uploadingfiles\\security\\security.xml", false);
-        //FileWriter writer = new FileWriter("complete/src/main/resources/security.xml", false);
-        writer.write(xmlString);
-        writer.close();
+        DbInit.storeUsersInFile(xmlString);
         return user1;
     }
 
@@ -79,4 +71,5 @@ public class UserService implements UserDetailsService {
         TypeReference<List<User>> typeReference = new TypeReference<List<User>>() {};
         return mapper.readValue(inputStream, typeReference);
     }
+
 }

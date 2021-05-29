@@ -51,6 +51,10 @@ public class DbInit implements CommandLineRunner {
         String xmlStringAdmin = mapper.writeValueAsString(admin);
         String xmlStringModerator = mapper.writeValueAsString(moderator);
         String xmlString = xmlStringDan + xmlStringAdmin + xmlStringModerator;
+        storeUsersInFile(xmlString);
+    }
+
+    public static void storeUsersInFile(String xmlString) throws IOException {
         xmlString = "<users>\n" + xmlString.replaceAll("<permissionList/>", "")
                 .replaceAll("<roleList>\\s", "")
                 .replaceAll("\\s</roleList>", "")
