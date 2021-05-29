@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(),  this.userRepository))
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/login", "/addUser").permitAll()
                 .antMatchers("/moderator/*").hasAnyRole("ADMIN", "MODERATOR")
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .anyRequest().authenticated();

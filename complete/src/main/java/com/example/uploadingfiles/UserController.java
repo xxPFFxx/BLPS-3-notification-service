@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public User addUser(@RequestBody User user){
-          return userService.saveUser(user);
+    public User addUser(@RequestBody User user) throws IOException {
+          return userService.addUser(user);
     }
 
     @PostMapping("/checkAuth")

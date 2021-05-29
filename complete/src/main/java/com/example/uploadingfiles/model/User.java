@@ -60,6 +60,14 @@ public class User {
         this.password = password;
     }
 
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
     public int getActive() {
         return active;
     }
