@@ -25,18 +25,18 @@ public class ReactionService {
         this.reactionRepository = reactionRepository;
     }
 
-    public Reaction likeVideo(String username, String link){
+    public Reaction handleReaction(String username, String link, ReactionType reactionType){
         VideoInfo videoInfo = videoInfoRepository.findVideoInfoByLink(link);
         User user = userRepository.findByUsername(username);
         Reaction existingReaction = reactionRepository.findByUserAndVideoinfo(user, videoInfo);
         if (existingReaction == null) {
-            Reaction reaction = new Reaction(user, videoInfo, ReactionType.LIKE);
+            Reaction reaction = new Reaction(user, videoInfo, reactionType);
             return reactionRepository.save(reaction);
         }
         else {
-            if (existingReaction.getReactiontype() != ReactionType.LIKE) {
-                reactionRepository.setVideoLiked(user, videoInfo, ReactionType.LIKE);
-                existingReaction.setReactiontype(ReactionType.LIKE);
+            if (existingReaction.getReactiontype() != reactionType) {
+                reactionRepository.changeReactionType(user, videoInfo, reactionType);
+                existingReaction.setReactiontype(reactionType);
             }
             return existingReaction;
         }

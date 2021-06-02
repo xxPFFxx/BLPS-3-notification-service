@@ -3,6 +3,7 @@ package com.example.uploadingfiles;
 import com.example.uploadingfiles.exceptions.VideoInfoNotFoundException;
 import com.example.uploadingfiles.model.Comment;
 import com.example.uploadingfiles.model.Reaction;
+import com.example.uploadingfiles.model.ReactionType;
 import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.services.CommentService;
 import com.example.uploadingfiles.services.ReactionService;
@@ -34,7 +35,12 @@ public class ReactionController {
     @PostMapping(value = "/like/{link}", produces = "application/json")
     public Reaction likeVideo(@PathVariable String link, Principal principal) throws VideoInfoNotFoundException {
         VideoInfo videoInfo = videoInfoService.getVideo(link);
-        return reactionService.likeVideo(principal.getName(), link);
+        return reactionService.handleReaction(principal.getName(), link, ReactionType.LIKE);
     }
 
+    @PostMapping(value = "/dislike/{link}", produces = "application/json")
+    public Reaction dislikeVideo(@PathVariable String link, Principal principal) throws VideoInfoNotFoundException {
+        VideoInfo videoInfo = videoInfoService.getVideo(link);
+        return reactionService.handleReaction(principal.getName(), link, ReactionType.DISLIKE);
+    }
 }

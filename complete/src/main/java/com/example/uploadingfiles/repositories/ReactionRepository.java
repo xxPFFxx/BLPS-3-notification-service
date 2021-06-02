@@ -18,5 +18,5 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     @Transactional
     @Modifying
     @Query("update Reaction r set r.reactiontype=:reactiontype where r.user= :user and r.videoinfo=:videoinfo")
-    int setVideoLiked(User user, VideoInfo videoinfo, ReactionType reactiontype);
+    int changeReactionType(User user, VideoInfo videoinfo, ReactionType reactiontype);
 }
