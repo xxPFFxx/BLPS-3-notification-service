@@ -32,26 +32,26 @@ public class DbInit implements CommandLineRunner {
     @Override
     public void run(String... args) throws IOException {
         // Delete all
-        this.userRepository.deleteAll();
-
-        // Create users
-        User dan = new User("dan",passwordEncoder.encode("dan123"),"USER","");
-        User admin = new User("admin",passwordEncoder.encode("admin123"),"ADMIN","");
-        User moderator = new User("moderator",passwordEncoder.encode("moderator123"),"MODERATOR","");
-
-//        @JacksonXmlProperty(localName = "user")
-//        @JacksonXmlElementWrapper(localName = "ArrayList")
-        List<User> users = Arrays.asList(dan,admin,moderator);
-
-        // Save to db
-        this.userRepository.saveAll(users);
-        ObjectMapper mapper = new XmlMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String xmlStringDan = mapper.writeValueAsString(dan);
-        String xmlStringAdmin = mapper.writeValueAsString(admin);
-        String xmlStringModerator = mapper.writeValueAsString(moderator);
-        String xmlString = xmlStringDan + xmlStringAdmin + xmlStringModerator;
-        storeUsersInFile(xmlString);
+//        this.userRepository.deleteAll();
+//
+//        // Create users
+//        User dan = new User("dan",passwordEncoder.encode("dan123"),"USER","");
+//        User admin = new User("admin",passwordEncoder.encode("admin123"),"ADMIN","");
+//        User moderator = new User("moderator",passwordEncoder.encode("moderator123"),"MODERATOR","");
+//
+////        @JacksonXmlProperty(localName = "user")
+////        @JacksonXmlElementWrapper(localName = "ArrayList")
+//        List<User> users = Arrays.asList(dan,admin,moderator);
+//
+//        // Save to db
+//        this.userRepository.saveAll(users);
+//        ObjectMapper mapper = new XmlMapper();
+//        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+//        String xmlStringDan = mapper.writeValueAsString(dan);
+//        String xmlStringAdmin = mapper.writeValueAsString(admin);
+//        String xmlStringModerator = mapper.writeValueAsString(moderator);
+//        String xmlString = xmlStringDan + xmlStringAdmin + xmlStringModerator;
+//        storeUsersInFile(xmlString);
     }
 
     public static void storeUsersInFile(String xmlString) throws IOException {

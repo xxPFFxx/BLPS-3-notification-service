@@ -1,5 +1,7 @@
 package com.example.uploadingfiles.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +22,20 @@ public class VideoInfo {
     private String releasetime;
     @Column(name = "releasedate")
     private String releasedate;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, User user) {
+        this.link = link;
+        this.name = name;
+        this.desc = desc;
+        this.category = category;
+        this.releasetime = releasetime;
+        this.releasedate = releasedate;
+        this.user = user;
+    }
 
     public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link) {
         this.link = link;
@@ -90,6 +106,11 @@ public class VideoInfo {
         this.releasedate = releaseDate;
     }
 
+    public User getUser() {
+        return user;
+    }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

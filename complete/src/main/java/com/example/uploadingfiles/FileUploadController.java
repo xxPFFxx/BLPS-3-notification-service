@@ -1,12 +1,15 @@
 package com.example.uploadingfiles;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.model.VideoInfo;
+import com.example.uploadingfiles.security.UserPrincipal;
 import com.example.uploadingfiles.services.UserService;
 import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.exceptions.StorageException;
@@ -72,9 +75,8 @@ public class FileUploadController {
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 	@PostMapping("/uploadVideo")
-	public ResponseEntity<?> handleFileUpload(@RequestParam String login, @RequestParam("file") MultipartFile file
+	public ResponseEntity<?> handleFileUpload(Principal principal, @RequestParam("file") MultipartFile file
 									  ) throws IOException {
-		HashMap<String, String> map = new HashMap<>();
 			storageService.store(file);
 			int leftLimit = 97; // letter 'a'
 			int rightLimit = 122; // letter 'z'
@@ -86,7 +88,7 @@ public class FileUploadController {
 					.toString();
 			//TODO проверка, нет ли такой линки уже
 
-			return new ResponseEntity<>(videoInfoService.saveVideoInfo(null, null, null, null, null, generatedString),HttpStatus.OK);
+			return new ResponseEntity<>(videoInfoService.saveVideoInfo(null, null, null, null, null, generatedString, principal.getName()),HttpStatus.OK);
 		}
 
 	@GetMapping(value = "/checkUser", produces = "application/json")

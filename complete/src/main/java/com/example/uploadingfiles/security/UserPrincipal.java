@@ -64,4 +64,12 @@ public class UserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return this.user.getActive() == 1;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

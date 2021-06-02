@@ -1,7 +1,10 @@
 package com.example.uploadingfiles.services;
 
+import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.model.VideoInfo;
+import com.example.uploadingfiles.repositories.UserRepository;
 import com.example.uploadingfiles.repositories.VideoInfoRepository;
+import com.example.uploadingfiles.security.UserPrincipal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,13 +14,16 @@ public class VideoInfoService {
 
 
     private final VideoInfoRepository videoInfoRepository;
+    private final UserRepository userRepository;
 
-    public VideoInfoService(VideoInfoRepository videoInfoRepository) {
+    public VideoInfoService(VideoInfoRepository videoInfoRepository, UserRepository userRepository) {
         this.videoInfoRepository = videoInfoRepository;
+        this.userRepository = userRepository;
     }
 
-    public VideoInfo saveVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link){
-        VideoInfo videoInfo = new VideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
+    public VideoInfo saveVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link, String username){
+        User user = userRepository.findByUsername(username);
+        VideoInfo videoInfo = new VideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link, user);
         return videoInfoRepository.save(videoInfo);
     }
 

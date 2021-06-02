@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "rutubeUsers")
@@ -24,6 +25,9 @@ public class User {
     private String roles = "";
 
     private String permissions = "";
+
+    @OneToMany(mappedBy = "user")
+    private Set<VideoInfo> videoInfos;
 
     public User(String username, String password) {
         this.username = username;
@@ -92,5 +96,13 @@ public class User {
             return Arrays.asList(this.permissions.split(","));
         }
         return new ArrayList<>();
+    }
+
+    public Set<VideoInfo> getVideoInfos() {
+        return videoInfos;
+    }
+
+    public void setVideoInfos(Set<VideoInfo> videoInfos) {
+        this.videoInfos = videoInfos;
     }
 }

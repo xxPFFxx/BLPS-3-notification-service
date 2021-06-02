@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,13 +39,13 @@ public class VideoController {
 
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
     public ResponseEntity<?> uploadVideoInfo(@RequestParam String videoName, @RequestParam String videoDesc,
-                                          @RequestParam String category, @RequestParam String releaseTime,
-                                          @RequestParam String releaseDate, @RequestParam String link){
+                                             @RequestParam String category, @RequestParam String releaseTime,
+                                             @RequestParam String releaseDate, @RequestParam String link, Principal principal){
+        System.out.println(principal.getName());
         if (videoInfoService.checkVideoInfo(link)){
             return new ResponseEntity<>(videoInfoService.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link),HttpStatus.OK);
         }
         else {
-            //map.put("message", "Видео не найдено");
             return new ResponseEntity<>("Видео не найдено", HttpStatus.BAD_REQUEST);
         }
 
