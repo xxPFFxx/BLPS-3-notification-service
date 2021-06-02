@@ -1,11 +1,18 @@
 package com.example.uploadingfiles.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "videoinfo")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class VideoInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,10 +29,14 @@ public class VideoInfo {
     private String releasetime;
     @Column(name = "releasedate")
     private String releasedate;
-    @JsonBackReference
+//    @JsonBackReference(value = "user-videoinfo")
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+//    @JsonManagedReference(value = "videoinfo-comment")
+    @OneToMany(mappedBy = "videoinfo")
+    private Set<Comment> comments;
 
     public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, User user) {
         this.link = link;
@@ -112,5 +123,13 @@ public class VideoInfo {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

@@ -31,7 +31,7 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
-        // Delete all
+//        // Delete all
 //        this.userRepository.deleteAll();
 //
 //        // Create users
@@ -39,8 +39,6 @@ public class DbInit implements CommandLineRunner {
 //        User admin = new User("admin",passwordEncoder.encode("admin123"),"ADMIN","");
 //        User moderator = new User("moderator",passwordEncoder.encode("moderator123"),"MODERATOR","");
 //
-////        @JacksonXmlProperty(localName = "user")
-////        @JacksonXmlElementWrapper(localName = "ArrayList")
 //        List<User> users = Arrays.asList(dan,admin,moderator);
 //
 //        // Save to db

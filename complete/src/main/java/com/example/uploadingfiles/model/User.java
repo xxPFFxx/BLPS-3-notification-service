@@ -1,5 +1,9 @@
 package com.example.uploadingfiles.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "rutubeUsers")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User {
 
     @Id
@@ -26,8 +33,13 @@ public class User {
 
     private String permissions = "";
 
+//    @JsonManagedReference(value = "user-videoinfo")
     @OneToMany(mappedBy = "user")
     private Set<VideoInfo> videoInfos;
+
+//    @JsonManagedReference(value = "user-comment")
+    @OneToMany(mappedBy = "user")
+    private Set<Comment> comments;
 
     public User(String username, String password) {
         this.username = username;
@@ -104,5 +116,13 @@ public class User {
 
     public void setVideoInfos(Set<VideoInfo> videoInfos) {
         this.videoInfos = videoInfos;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }
