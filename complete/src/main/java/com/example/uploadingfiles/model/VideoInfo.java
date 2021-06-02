@@ -40,6 +40,9 @@ public class VideoInfo {
     @OneToMany(mappedBy = "videoinfo")
     private Set<Comment> comments;
 
+    @OneToMany(mappedBy = "videoinfo")
+    private Set<Reaction> reactions;
+
     public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, int views, User user) {
         this.link = link;
         this.name = name;
@@ -133,5 +136,13 @@ public class VideoInfo {
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    public Set<Reaction> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(Set<Reaction> reactions) {
+        this.reactions = reactions;
     }
 }

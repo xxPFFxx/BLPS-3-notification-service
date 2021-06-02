@@ -41,6 +41,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Reaction> reactions;
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -124,5 +127,13 @@ public class User {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<Reaction> getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(Set<Reaction> reactions) {
+        this.reactions = reactions;
     }
 }
