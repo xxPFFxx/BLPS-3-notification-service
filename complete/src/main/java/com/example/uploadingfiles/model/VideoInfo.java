@@ -29,6 +29,8 @@ public class VideoInfo {
     private String releasetime;
     @Column(name = "releasedate")
     private String releasedate;
+    @Column(name = "views")
+    private Integer views;
 //    @JsonBackReference(value = "user-videoinfo")
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -38,23 +40,15 @@ public class VideoInfo {
     @OneToMany(mappedBy = "videoinfo")
     private Set<Comment> comments;
 
-    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, User user) {
+    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, int views, User user) {
         this.link = link;
         this.name = name;
         this.desc = desc;
         this.category = category;
         this.releasetime = releasetime;
         this.releasedate = releasedate;
+        this.views = views;
         this.user = user;
-    }
-
-    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link) {
-        this.link = link;
-        this.name = name;
-        this.desc = desc;
-        this.category = category;
-        this.releasetime = releasetime;
-        this.releasedate = releasedate;
     }
 
     public VideoInfo() {
@@ -131,5 +125,13 @@ public class VideoInfo {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public int getViews() {
+        return views;
+    }
+
+    public void setViews(int views) {
+        this.views = views;
     }
 }

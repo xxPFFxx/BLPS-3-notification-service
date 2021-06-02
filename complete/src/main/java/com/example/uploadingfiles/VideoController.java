@@ -73,6 +73,11 @@ public class VideoController {
         System.out.println(videoCategory);
         return videoInfoService.changeVideoInfo(link, videoName, videoDesc, videoCategory);
     }
+
+    @PostMapping(value = "/view/{link}", produces = "application/json")
+    public VideoInfo countView(@PathVariable String link) throws VideoInfoNotFoundException {
+        return videoInfoService.countView(link);
+    }
 }
 
 
