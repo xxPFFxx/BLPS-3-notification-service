@@ -1,5 +1,6 @@
 package com.example.uploadingfiles.services;
 
+import com.example.uploadingfiles.exceptions.VideoInfoNotFoundException;
 import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.repositories.UserRepository;
@@ -35,8 +36,10 @@ public class VideoInfoService {
         return videoInfoRepository.updateVideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link);
     }
 
-    public VideoInfo getVideo(String link){
-        return videoInfoRepository.findVideoInfoByLink(link);
+    public VideoInfo getVideo(String link) throws VideoInfoNotFoundException {
+        VideoInfo videoInfo = videoInfoRepository.findVideoInfoByLink(link);
+        if (videoInfo == null) throw new VideoInfoNotFoundException(link);
+        return videoInfo;
     }
 
     public int deleteVideo(String link){

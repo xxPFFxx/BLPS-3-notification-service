@@ -1,5 +1,6 @@
 package com.example.uploadingfiles;
 
+import com.example.uploadingfiles.exceptions.VideoInfoNotFoundException;
 import com.example.uploadingfiles.model.VideoInfo;
 import com.example.uploadingfiles.services.VideoInfoService;
 import com.example.uploadingfiles.util.StorageService;
@@ -28,13 +29,8 @@ public class VideoController {
 
 
     @GetMapping(value = "/getVideo", produces = "application/json")
-    public VideoInfo getVideo(@RequestParam String link){
-        if (videoInfoService.checkVideoInfo(link)){
+    public VideoInfo getVideo(@RequestParam String link) throws VideoInfoNotFoundException {
             return videoInfoService.getVideo(link);
-        }
-        else {
-            return new VideoInfo("Не найдено", "Не найдено", "Не найдено", "Не найдено", "Не найдено", link);
-        }
     }
 
     @PostMapping(value = "/addVideoInfo", produces = "application/json")
