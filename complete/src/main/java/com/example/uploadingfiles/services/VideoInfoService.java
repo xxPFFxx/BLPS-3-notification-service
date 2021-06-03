@@ -9,6 +9,7 @@ import com.example.uploadingfiles.security.UserPrincipal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class VideoInfoService {
@@ -24,7 +25,7 @@ public class VideoInfoService {
 
     public VideoInfo saveVideoInfo(String videoName, String videoDesc, String category, String releaseTime, String releaseDate, String link, String username){
         User user = userRepository.findByUsername(username);
-        VideoInfo videoInfo = new VideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link, 0, user);
+        VideoInfo videoInfo = new VideoInfo(videoName, videoDesc, category, releaseTime, releaseDate, link, 0, user, Boolean.FALSE);
         return videoInfoRepository.save(videoInfo);
     }
 
@@ -70,5 +71,12 @@ public class VideoInfoService {
         videoInfoRepository.countView(link);
         VideoInfo videoInfo = getVideo(link);
         return videoInfo;
+    }
+
+    public void setPopularStatus(){
+        List<VideoInfo> videoInfos =  videoInfoRepository.selectPotentialPopularVideos();
+        for (VideoInfo videoInfo : videoInfos){
+            videoInfoRepository.updatePopularStatus(videoInfo.getLink());
+        }
     }
 }

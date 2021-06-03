@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
+
 @Repository
 public interface VideoInfoRepository extends JpaRepository<VideoInfo, Long> {
 
@@ -42,4 +45,12 @@ public interface VideoInfoRepository extends JpaRepository<VideoInfo, Long> {
     @Modifying
     @Query("update VideoInfo v set v.views=v.views+1 where v.link= :link")
     int countView(String link);
+
+    @Query("select v from VideoInfo v where v.views>=10 and v.popular=false ")
+    List<VideoInfo> selectPotentialPopularVideos();
+
+    @Transactional
+    @Modifying
+    @Query("update VideoInfo v set v.name = concat(v.name, ' [POPULAR]'), v.popular=true where v.link=:link")
+    int updatePopularStatus(String link);
 }

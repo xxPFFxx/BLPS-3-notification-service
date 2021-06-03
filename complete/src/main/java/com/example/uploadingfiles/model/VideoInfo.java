@@ -43,7 +43,10 @@ public class VideoInfo {
     @OneToMany(mappedBy = "videoinfo")
     private Set<Reaction> reactions;
 
-    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, int views, User user) {
+    @Column(name = "popular")
+    private Boolean popular;
+
+    public VideoInfo(String name, String desc, String category, String releasetime, String releasedate, String link, int views, User user, Boolean popular) {
         this.link = link;
         this.name = name;
         this.desc = desc;
@@ -52,6 +55,7 @@ public class VideoInfo {
         this.releasedate = releasedate;
         this.views = views;
         this.user = user;
+        this.popular = popular;
     }
 
     public VideoInfo() {
@@ -144,5 +148,13 @@ public class VideoInfo {
 
     public void setReactions(Set<Reaction> reactions) {
         this.reactions = reactions;
+    }
+
+    public Boolean getPopular() {
+        return popular;
+    }
+
+    public void setPopular(Boolean popular) {
+        this.popular = popular;
     }
 }
