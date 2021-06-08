@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import java.util.*;
 
 @Entity
 @Table(name = "rutubeUsers")
@@ -24,6 +23,10 @@ public class User {
     @Column(nullable = false)
     private String username;
 
+    @Email
+    @Column(nullable = false)
+    private String email;
+
     @Column(nullable = false)
     private String password;
 
@@ -33,24 +36,48 @@ public class User {
 
     private String permissions = "";
 
-//    @JsonManagedReference(value = "user-videoinfo")
+    //    @JsonManagedReference(value = "user-videoinfo")
     @OneToMany(mappedBy = "user")
     private Set<VideoInfo> videoInfos;
 
-//    @JsonManagedReference(value = "user-comment")
+    //    @JsonManagedReference(value = "user-comment")
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
     private Set<Reaction> reactions;
 
+    @ManyToMany
+    @JoinTable(
+            name = "subscriptions",
+            joinColumns = {@JoinColumn(name = "channel_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subscriber_id")}
+    )
+    private Set<User> subscribers = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "subscriptions",
+            joinColumns = {@JoinColumn(name = "subscriber_id")},
+            inverseJoinColumns = {@JoinColumn(name = "channel_id")}
+    )
+    private Set<User> subscriptions = new HashSet<>();
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(String username, String password, String roles, String permissions){
+    public User(String username, String password, String email) {
         this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+
+    public User(String username, String password, String roles, String permissions, String email){
+        this.username = username;
+        this.email = email;
         this.password = password;
         this.roles = roles;
         this.permissions = permissions;
@@ -135,5 +162,29 @@ public class User {
 
     public void setReactions(Set<Reaction> reactions) {
         this.reactions = reactions;
+    }
+
+    public Set<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<User> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
