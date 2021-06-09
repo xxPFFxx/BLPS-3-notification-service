@@ -59,6 +59,18 @@ public class KafkaConsumer {
     @KafkaListener(topics = "NotifyAuthorTopicFromMain", groupId = "NotifyAuthor", containerFactory = "NotifyAuthorKafkaListenerContainerFactory")
     public void notifyAuthorConsume(NotifyAuthorMessage message) throws VideoInfoNotFoundException {
         System.out.println(message.getLinks());
+        ArrayList<String> links = message.getLinks();
+        for (String link : links){
+            VideoInfo videoInfo = videoInfoService.getVideo(link);
+            User author = videoInfo.getUser();
+            String email = author.getEmail();
+            SimpleMailMessage EMessage = new SimpleMailMessage();
+            EMessage.setFrom("LabTestTempMail@gmail.com");
+            EMessage.setTo(email);
+            EMessage.setSubject("Popular video");
+            EMessage.setText("Your video " + videoInfo.getName() + " just became HOT with " + videoInfo.getViews() + " views!");
+            emailSender.send(EMessage);
+        }
         //kafkaTemplate.send(TOPIC, new UpdateNotificationsSentMessage(videoInfo.getLink(), subscribersLogins));
     }
 
