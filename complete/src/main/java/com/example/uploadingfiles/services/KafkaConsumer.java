@@ -1,7 +1,8 @@
 package com.example.uploadingfiles.services;
 
-import com.example.uploadingfiles.POJO.DeliveryMessageInformation;
-import com.example.uploadingfiles.POJO.NotificationToMainMessage;
+import com.example.uploadingfiles.POJO.NotifyAuthorMessage;
+import com.example.uploadingfiles.POJO.NotifySubscribersMessage;
+import com.example.uploadingfiles.POJO.UpdateNotificationsSentMessage;
 import com.example.uploadingfiles.exceptions.VideoInfoNotFoundException;
 import com.example.uploadingfiles.model.User;
 import com.example.uploadingfiles.model.VideoInfo;
@@ -25,17 +26,17 @@ public class KafkaConsumer {
     @Autowired
     private JavaMailSender emailSender;
 
-    private final KafkaTemplate<String, NotificationToMainMessage> kafkaTemplate;
+    private final KafkaTemplate<String, UpdateNotificationsSentMessage> kafkaTemplate;
     private static final String TOPIC = "NotificationTopich";
 
     @Autowired
-    public KafkaConsumer(KafkaTemplate<String, NotificationToMainMessage> kafkaTemplate) {
+    public KafkaConsumer(KafkaTemplate<String, UpdateNotificationsSentMessage> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Transactional
     @KafkaListener(topics = "NotificationTopicb", groupId = "MainToNotification", containerFactory = "kafkaListenerContainerFactory")
-    public void consume(DeliveryMessageInformation message) throws VideoInfoNotFoundException {
+    public void consume(NotifySubscribersMessage message) throws VideoInfoNotFoundException {
         System.out.println("Consumed message: " + message.getLink());
         ArrayList<String> subscribersLogins = new ArrayList<>();
         VideoInfo videoInfo = videoInfoService.getVideo(message.getLink());
@@ -51,7 +52,16 @@ public class KafkaConsumer {
             emailSender.send(EMessage);
 
         }
-        kafkaTemplate.send(TOPIC, new NotificationToMainMessage(videoInfo.getLink(), subscribersLogins));
+        kafkaTemplate.send(TOPIC, new UpdateNotificationsSentMessage(videoInfo.getLink(), subscribersLogins));
     }
+
+    @Transactional
+    @KafkaListener(topics = "NotifyAuthorTopicFromMain", groupId = "NotifyAuthor", containerFactory = "NotifyAuthorKafkaListenerContainerFactory")
+    public void notifyAuthorConsume(NotifyAuthorMessage message) throws VideoInfoNotFoundException {
+        System.out.println(message.getLinks());
+        //kafkaTemplate.send(TOPIC, new UpdateNotificationsSentMessage(videoInfo.getLink(), subscribersLogins));
+    }
+
+
 
 }

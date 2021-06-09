@@ -18,10 +18,10 @@ public class ScheduledTasks {
     public ScheduledTasks(VideoInfoService videoInfoService) {
         this.videoInfoService = videoInfoService;
     }
-
-    @Scheduled(cron = "0 * * * * *")
-    public void reportCurrentTime() {
-        videoInfoService.setPopularStatus();
-//        log.info("The time is now {}", dateFormat.format(new Date()));
-    }
 }
+//    @Scheduled(cron = "0 * * * * *")
+//    public void reportCurrentTime() {
+//        videoInfoService.setPopularStatus();
+////        log.info("The time is now {}", dateFormat.format(new Date()));
+//    }
+//}
